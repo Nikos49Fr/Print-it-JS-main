@@ -18,12 +18,7 @@ const slides = [
 ]
 
 //initialisation
-let bulletActive = 0;
-let bulletDesactive = 0;
-// on récupère tout de suite les balises qui seront à modifier
-const bannerImg = document.querySelector(".banner-img");
-const bannerText = document.querySelector("#banner p");
-
+let slideActive = 0; // la 1ère slide
 // constructiuon des bullets dots
 const dots = document.querySelector(".dots")
 for (let i = 0; i < slides.length; i++) {
@@ -34,25 +29,35 @@ for (let i = 0; i < slides.length; i++) {
 	}
 	dots.appendChild(dot);
 }
+// on récupère tout de suite les balises qui seront à modifier
+const bannerImg = document.querySelector(".banner-img");
+const bannerText = document.querySelector("#banner p");
 
 // fonction principale qui va gérer le changement de slide
 function slideChange(direction) {
 	// on récupère l'ensemble des bullets
 	const dots = document.querySelectorAll(".dot");
 	// on retire la class dot_selected à la bullet active
-	dots[bulletActive].classList.remove("dot_selected");
+	dots[slideActive].classList.remove("dot_selected");
 	// on détermine dans quel sens le carrousel va défiler
 	if (direction === "left") {
-		bulletActive--;
+		slideActive--;
 	} else if (direction === "right") {
-		bulletActive++;
+		slideActive++;
 	}
+	// Gestion des bornes du carrousel
+	if (slideActive === -1) {
+		slideActive = dots.length - 1;
+	} else if (slideActive === dots.length) {
+		slideActive = 0;
+	}
+
 	// on active la bullet de la nouvelle slide
-	dots[bulletActive].classList.add("dot_selected");
+	dots[slideActive].classList.add("dot_selected");
 	
 	// on met à jour l'image et le texte correspondant
-	bannerImg.setAttribute("src", `./assets/images/slideshow/${slides[bulletActive].image}`);	
-	bannerText.innerHTML = slides[bulletActive].tagLine;
+	bannerImg.setAttribute("src", `./assets/images/slideshow/${slides[slideActive].image}`);	
+	bannerText.innerHTML = slides[slideActive].tagLine;
 }
 
 // EventListener pour la flèche gauche
