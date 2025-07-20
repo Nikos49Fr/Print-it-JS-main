@@ -26,3 +26,13 @@ leftArrow.addEventListener("click", () => {
 rightArrow.addEventListener("click", () => {
 	console.log("à droite");
 });
+
+const dots = document.querySelector(".dots")
+for (let i = 0; i < slides.length; i++) {
+	let dot = document.createElement("div");
+	dot.classList.add("dot");
+	if (i === 0) {
+		dot.classList.toggle("dot_selected");
+	}
+	dots.appendChild(dot);
+}
